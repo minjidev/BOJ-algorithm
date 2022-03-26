@@ -1,6 +1,3 @@
-a,b = input().split()
-
-new_a = a[2] + a[1] + a[0]
-new_b = b[2] + b[1] + b[0]
-
-print(max(new_a, new_b))
+a, b = input().split()
+result = a[::-1] if int(a[::-1]) > int(b[::-1]) else b[::-1]
+print(result)
