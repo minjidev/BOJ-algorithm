@@ -1,0 +1,10 @@
+def solution(numbers):
+    sum_nums = set()
+    
+    for x in range(len(numbers)):
+        for y in range(len(numbers)):
+            if x < y:
+                sum_nums.add(numbers[x]+numbers[y])
+    lst = list(sum_nums) 
+    lst.sort()
+    return lst
