@@ -1,6 +1,2 @@
 def solution(arr):
-    sum = 0
-    for i in arr:
-        sum += i
-    avg_result = sum/len(arr)
-    return avg_result
+    return sum(arr)/len(arr)
