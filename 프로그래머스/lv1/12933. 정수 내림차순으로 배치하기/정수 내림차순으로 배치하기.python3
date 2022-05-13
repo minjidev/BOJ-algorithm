@@ -1,0 +1,5 @@
+def solution(n):
+    word = [i for i in str(n)]
+    word.sort(reverse=True)
+    result = ''.join(word)
+    return int(result)
