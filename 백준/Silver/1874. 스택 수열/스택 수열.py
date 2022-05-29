@@ -16,6 +16,7 @@ for num in a:
     if stack[-1] != num:
       print('NO')
       sys.exit(0)
-    stack.pop()
-    answer += '-\n'
+    else:
+      stack.pop()
+      answer += '-\n'
 print(answer)
