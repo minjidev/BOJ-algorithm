@@ -1,20 +1,24 @@
-import sys
-
-def par(s):
-    cnt = 0
-    for cha in s:
-      if cha == '(':
-        cnt += 1
-      else:
-        cnt -= 1
-      if cnt < 0:
-        return 'NO'
-        
-    if cnt == 0:
-      return 'YES'
+import sys 
+def valid(l):
+  stack = []
+  for ch in l:
+    if ch == '(':
+      stack.append(ch)
     else:
-      return 'NO'
-      
+      if stack:
+        stack.pop()
+      else:
+        if ch == ')':
+          return "NO" 
+  if stack:
+    return "NO"
+  else:
+    return "YES"
+
 t = int(sys.stdin.readline())
 for _ in range(t):
-  print(par(input()))
+  line = sys.stdin.readline().strip()
+  print(valid(line))
+  
+      
+  
