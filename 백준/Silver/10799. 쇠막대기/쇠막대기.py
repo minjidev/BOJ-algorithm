@@ -3,9 +3,8 @@ l = sys.stdin.readline().rstrip()
 stack = []
 ans = 0
 
-for i in range(len(l)):
-  ch = l[i]
-  if ch == '(':
+for i, val in enumerate(l):
+  if val == '(':
     stack.append(i)
   else:
     if stack:
