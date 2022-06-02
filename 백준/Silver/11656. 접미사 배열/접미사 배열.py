@@ -1,7 +1,7 @@
 import sys
 s = sys.stdin.readline().rstrip()
 ans = []
-for _ in range(len(s)):
+for _ in enumerate(s):
   ans.append(s)
   s = s[1:]
 
