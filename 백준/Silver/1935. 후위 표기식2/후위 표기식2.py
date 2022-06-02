@@ -8,7 +8,7 @@ A = ord('A')
 Z = ord('Z')
 
 for ch in pst_fix:
-  if A<=ord(ch)<=Z:
+  if ch.isalpha():
     stack.append(num_list[ord(ch)-A])
   else:
     b = stack.pop()
