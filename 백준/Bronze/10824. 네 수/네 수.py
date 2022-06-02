@@ -1,4 +1,4 @@
 import sys 
-input = sys.stdin.readline
-a,b,c,d = input().split()
+
+a,b,c,d = sys.stdin.readline().split()
 print(int(a+b)+int(c+d))
