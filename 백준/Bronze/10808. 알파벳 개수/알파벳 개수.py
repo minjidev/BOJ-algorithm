@@ -1,10 +1,5 @@
 import sys
-s = sys.stdin.readline()
-asc = ord('a')
-ans = []
-for ch in range(26):
-  ans.append(s.count(chr(asc)))
-  asc += 1
-
-print(*ans)
-  
+s = sys.stdin.readline().rstrip()
+for i in range(26):
+    ch = chr(i+ord('a'))
+    print(s.count(ch), end=' ')
