@@ -1,0 +1,9 @@
+def solution(n, m):
+    a, b = n, m
+    while m>0:
+        n, m = m, n%m
+        if m == 0: 
+            g = n
+        
+    l = a*b//g
+    return [g, l]
