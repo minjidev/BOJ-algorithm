@@ -2,8 +2,4 @@ def solution(a, b):
     if a==b: return a
 
     m, n = min(a,b), max(a,b)
-    ans = 0
-    for i in range(m,n+1):
-        ans += i
-        
-    return ans
+    return sum(range(m, n+1))
