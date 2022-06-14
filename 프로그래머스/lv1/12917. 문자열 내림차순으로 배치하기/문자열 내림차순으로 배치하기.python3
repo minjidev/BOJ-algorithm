@@ -1,5 +1,9 @@
 def solution(s):
+    ans = ''
     ord_lst = [ord(i) for i in s]
-    ord_lst.sort(reverse=True)
-    
-    return ''.join([chr(i) for i in ord_lst])
+    while ord_lst:
+        max_num = max(ord_lst)
+        ans += chr(max_num)
+        ord_lst.remove(max_num)
+        
+    return ans
