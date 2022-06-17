@@ -1,0 +1,14 @@
+from itertools import combinations
+def solution(nums):
+    c = [sum(i) for i in list(combinations(nums, 3))]
+    sieve = [0, 0] + [True] * ((max(c))-1)
+    l = max(c)+1
+    for i in range(2, int(l**0.5)+1):
+        if sieve[i]:
+            for j in range(2*i, l, i):
+                sieve[j] = False
+    ans = 0
+    for i in c:
+        if sieve[i]:
+            ans += 1
+    return ans
