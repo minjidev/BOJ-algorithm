@@ -1,26 +1,13 @@
+import re
 def solution(dartResult):
-    num = ''
-    score = []
-    for i in dartResult:
-        if i.isdigit():
-            num += i
-        elif i == "S":
-            score.append(int(num))
-            num = ''
-        elif i == "D":
-            score.append(int(num)**2)
-            num = ''
-        elif i == "T":
-            score.append(int(num)**3)
-            num = ''
-        elif i == "*":
-            if len(score)>1:
-                score[-2] *= 2
-                score[-1] *= 2
-            else:
-                score[-1] *= 2
-        elif i == "#":
-            score[-1] *= -1
-    return sum(score)
-        
-        
+    exp = {'S' : 1, 'D' : 2, 'T' : 3}
+    opt = {'' : 1, '*' : 2, '#' : -1}
+    p = re.compile('(\d+)([SDT])([*#]?)')
+    dart_re = p.findall(dartResult)
+    
+    for i in range(len(dart_re)):
+        if i>0 and dart_re[i][2]=='*':
+            dart_re[i-1] *=2
+        dart_re[i] = int(dart_re[i][0]) ** exp[dart_re[i][1]] * opt[dart_re[i][2]]
+    
+    return sum(dart_re)
