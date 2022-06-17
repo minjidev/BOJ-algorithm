@@ -1,6 +1,6 @@
 # [level 1] 부족한 금액 계산하기 - 82612 
 
-[문제 링크](https://programmers.co.kr/learn/courses/30/lessons/82612) 
+[문제 링크](https://programmers.co.kr/learn/courses/30/lessons/82612?language=python3) 
 
 ### 성능 요약
 
