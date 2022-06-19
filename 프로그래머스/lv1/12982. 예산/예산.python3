@@ -6,5 +6,6 @@ def solution(d, budget):
         ans += 1
         if added > budget:
             return ans-1
-    if added <= budget:
-        return ans
+        elif added == budget:
+            return ans
+    
