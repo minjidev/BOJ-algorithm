@@ -1,4 +1,5 @@
 def solution(n, lost, reserve):
+    # 여분 있는데 잃어버린 사람 제외
     set_reserve = set(reserve)-set(lost)
     set_lost = set(lost)-set(reserve)
     for i in set_reserve:
