@@ -1,0 +1,8 @@
+def solution(sizes):
+    w = [0] * len(sizes)
+    h = [0] * len(sizes) 
+    for i, a in enumerate(sizes):
+        w[i] = max(a[0], a[1])
+        h[i] = min(a[0], a[1])
+    ans = max(w) * max(h) 
+    return ans
