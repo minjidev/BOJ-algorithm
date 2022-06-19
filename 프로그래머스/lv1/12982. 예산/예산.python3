@@ -1,0 +1,10 @@
+def solution(d, budget):
+    added = 0
+    ans = 0
+    for a in sorted(d):
+        added += a
+        ans += 1
+        if added > budget:
+            return ans-1
+    if added <= budget:
+        return ans
