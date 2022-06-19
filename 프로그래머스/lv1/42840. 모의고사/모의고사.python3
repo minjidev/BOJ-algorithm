@@ -1,0 +1,19 @@
+def score(numbers, answers):
+    ans = 0
+    for idx, answer in enumerate(answers):
+        if numbers[idx%len(numbers)] == answer:
+            ans +=1
+    return ans
+
+def solution(answers):
+    p1 = [1, 2, 3, 4, 5]
+    p2 = [2, 1, 2, 3, 2, 4, 2, 5]
+    p3 = [3, 3, 1, 1, 2, 2, 4, 4, 5, 5]
+    p = [p1, p2, p3]
+    m = max(score(p[i], answers) for i in range(3))
+    ans = []
+    for i in range(3):
+        if m == score(p[i], answers):
+            ans.append(i+1)
+            
+    return ans
