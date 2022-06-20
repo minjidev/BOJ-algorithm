@@ -1,0 +1,9 @@
+def solution(n, arr1, arr2):
+    ans = []
+    for n1, n2 in zip(arr1, arr2):
+        tmp = bin(n1 | n2)[2:].zfill(n)
+        tmp = tmp.replace('1', '#')
+        tmp = tmp.replace('0', ' ')
+        ans.append(tmp) 
+    return ans
+    
