@@ -1,0 +1,39 @@
+def findDistance(previous, current):
+    keypad = {1: [0, 0], 2: [1, 0], 3: [2, 0],
+              4: [0, 1], 5: [1, 1], 6: [2, 1],
+              7: [0, 2], 8: [1, 2], 9: [2, 2],
+              '*': [0, 3], 0:[1, 3], '#': [2, 3]}
+    x1, y1 = keypad[previous]
+    x2, y2 = keypad[current]
+    distance = abs(x1-x2) + abs(y1-y2)
+    return distance
+    
+
+def solution(numbers, hand):
+    ans = ''
+    l_pos = ["*"]
+    r_pos = ["#"]
+    
+    for i, n in enumerate(numbers):
+        if n in (1, 4, 7):
+            ans += 'L'
+            l_pos.append(n)
+        elif n in (3, 6, 9):
+            ans += 'R'
+            r_pos.append(n)
+        else:
+            if findDistance(l_pos[-1], n) > findDistance(r_pos[-1], n): #오른손이 가까우면
+                ans += 'R'
+                r_pos.append(n)
+            elif findDistance(l_pos[-1], n)<findDistance(r_pos[-1], n): # 왼손이 가까우면 
+                ans += 'L'
+                l_pos.append(n)
+            else: # 같은 위치면 
+                if hand=='right':
+                    ans += 'R'
+                    r_pos.append(n)
+                else:
+                    ans += 'L'
+                    l_pos.append(n)
+                
+    return ans
