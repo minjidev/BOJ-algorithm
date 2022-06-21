@@ -1,18 +1,23 @@
 def solution(new_id):
     ans = ''
+    # 1
     for i in new_id.lower():
+        # 2
         if i.isalnum() or i in ("-", "_", "."):
             ans += i
-    
+    # 3
     while ".." in ans:
         ans = ans.replace("..", ".")
+    #4
     ans = ans.strip(".")
-    
+    # 5
     if not ans:
         ans += "a"
+    # 6
     if len(ans) >= 16:
         ans = ans[:15]
         ans = ans.rstrip(".")
+    # 7
     if len(ans) <= 2:
         while len(ans) < 3:
             ans += ans[-1]
