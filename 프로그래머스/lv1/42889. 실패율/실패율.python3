@@ -1,0 +1,16 @@
+def solution(N, stages):
+    ans = []
+    length = len(stages) # 1단계 통과한 사용자 수
+    for i in range(1, N+1):
+        count = stages.count(i) # 클리어 하지 못한 사용자 수
+        if count == 0:
+            fail = 0
+        else:
+            fail = count/length
+        length -= count # 다음 스테이지에 도달한 사용자 수 
+        ans.append((i, fail)) # (스테이지 번호, 실패율) 추가
+    ans = sorted(ans, key=lambda x : x[1], reverse=True)
+    ans = [i[0] for i in ans]
+    return ans
+        
+    
