@@ -1,0 +1,3 @@
+def solution(s):
+    sp = sorted(list(map(int, s.split(" "))))
+    return ' '.join([str(sp[0]), str(sp[-1])])
