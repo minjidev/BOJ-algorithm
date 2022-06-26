@@ -1,10 +1,5 @@
+from collections import Counter
+
 def solution(participant, completion):
-    participant.sort()
-    completion.sort()
-    completion.append(' ')
-
-    for p, c in zip(participant, completion):
-        if p != c:
-            return p
-
-        
+    answer = Counter(participant) - Counter(completion)
+    return (list(answer)[0])
