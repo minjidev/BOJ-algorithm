@@ -1,19 +1,25 @@
 def score(numbers, answers):
-    ans = 0
-    for idx, answer in enumerate(answers):
-        if numbers[idx%len(numbers)] == answer:
-            ans +=1
-    return ans
+    cnt = 0
+    for i, a in enumerate(answers):
+        if a == numbers[i%len(numbers)]: 
+            cnt += 1
+    return cnt
+        
+
 
 def solution(answers):
     p1 = [1, 2, 3, 4, 5]
     p2 = [2, 1, 2, 3, 2, 4, 2, 5]
     p3 = [3, 3, 1, 1, 2, 2, 4, 4, 5, 5]
-    p = [p1, p2, p3]
-    m = max(score(p[i], answers) for i in range(3))
-    ans = []
-    for i in range(3):
-        if m == score(p[i], answers):
-            ans.append(i+1)
-            
-    return ans
+    ans = [score(p1, answers), score(p2, answers), score(p3, answers)]
+    if ans.count(max(ans))>1: # 최댓값을 가진 수포자가 여러 명인 경우
+        return [i+1 for i in range(len(ans)) if max(ans)==ans[i]]
+    return [ans.index(max(ans))+1]
+
+    
+    
+    
+    
+    
+    
+    
