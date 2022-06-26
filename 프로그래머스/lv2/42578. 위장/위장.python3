@@ -1,18 +1,12 @@
-
 def solution(clothes):
     c = {}
     ans = 1
+    
     for i in clothes:
         if i[1] not in c:
             c[i[1]] = [i[0]]
-            c[i[1]].append(' ')
         else:
-            c[i[1]].append(i[0])
-
+            c[i[1]].append(i[0]) 
     for i in c.keys():
-        ans *= len(c[i])
-    return ans-1
-
-        
-        
-    
+        ans *= (len(c[i])+1)
+    return ans-1 # 아무것도 안 입은 경우
