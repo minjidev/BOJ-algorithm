@@ -1,0 +1,19 @@
+import math
+
+def solution(progresses, speeds):
+    days = []
+    ans = []  
+    days = [math.ceil((100-p)/speeds[i]) for i,p in enumerate(progresses)]
+    
+    idx = 0 # 현재 인덱스
+    for i in range(len(days)):
+        if days[idx] < days[i]: # 현재 인덱스의 작업일보다 더 큰 작업일이 나오면 
+            ans.append(i-idx) # 둘의 인덱스 차이(배포 개수) 추가
+            idx = i # 현재 인덱스 갱신
+    ans.append(len(days)-idx) # 전체 길이와 현재 인덱스의 차를 통해 남은 기능 모두 출시
+    return ans
+            
+
+        
+        
+        
