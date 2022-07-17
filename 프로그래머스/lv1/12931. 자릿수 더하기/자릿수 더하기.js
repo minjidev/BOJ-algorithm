@@ -1,9 +1,9 @@
 function solution(n)
 {
-    var res = 0;
-    while (n>0) {
-        res += n%10;
-        n = parseInt(n/10);
+    n = n.toString();
+    res = 0;
+    for (var i=0; i<n.length; i++) {
+        res += parseInt(n[i]);
     }
 
     return res;
