@@ -1,4 +1,5 @@
 function solution(arr) {
-    var filtered = arr.filter((element)=>element!=Math.min(...arr));
-    return filtered.length ? filtered : [-1];
+    var idx = arr.indexOf(Math.min(...arr));
+    arr.splice(idx, 1);
+    return arr.length && arr || [-1];
 }
