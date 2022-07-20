@@ -1,4 +1,4 @@
 function solution(n) {
-    var sorted = (n+'').split('').sort((a,b)=>b-a);
-    return parseInt(sorted.join(''));
+    var sorted = (n+'').split('').sort().reverse().join('');
+    return +sorted
 }
