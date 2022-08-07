@@ -6,7 +6,7 @@ function solution(num) {
         if (num%2==0) {
             num/=2;
             num = parseInt(num);
-        } else if (num%2!=0) {
+        } else {
             num = num*3+1;
         } if (num==1) {
             return cnt
