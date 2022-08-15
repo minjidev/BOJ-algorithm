@@ -1,5 +1,4 @@
 function solution(s) {
-    const digit_only = string => [...string].every(c => '0123456789'.includes(c));
-    
-    return (s.length === 4 || s.length === 6) && digit_only(s) 
+  const regexr = /^\d{4}$|^\d{6}$/;
+  return regexr.test(s);
 }
