@@ -1,10 +1,10 @@
 # [level 1] 문자열 다루기 기본 - 12918 
 
-[문제 링크](https://programmers.co.kr/learn/courses/30/lessons/12918?language=python3) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/12918?language=javascript) 
 
 ### 성능 요약
 
-메모리: 10.1 MB, 시간: 0.01 ms
+메모리: 29.8 MB, 시간: 0.06 ms
 
 ### 구분
 
@@ -22,6 +22,7 @@
 
 <ul>
 <li><code>s</code>는 길이 1 이상, 길이 8 이하인 문자열입니다.</li>
+<li><code>s</code>는 영문 알파벳 대소문자 또는 0부터 9까지 숫자로 이루어져 있습니다.</li>
 </ul>
 
 <h5>입출력 예</h5>
@@ -41,5 +42,12 @@
 </tr>
 </tbody>
       </table>
+<hr>
+
+<ul>
+<li>공지 - 2022년 7월 22일 테스트케이스가 추가되었습니다.</li>
+<li>공지 - 2022년 7월 22일 제한 사항이 추가되었습니다.</li>
+</ul>
+
 
 > 출처: 프로그래머스 코딩 테스트 연습, https://programmers.co.kr/learn/challenges
