@@ -5,8 +5,8 @@ temp = list(map(int, input().split()))
 cur = sum(temp[:k])
 largest = cur
 # 연속된 온도의 합 = 이전 합 + 다음 K번째 온도 - 이전합 첫 번째 온도
-for i in range(k, n):
-  cur = cur + temp[i] - temp[i-k]
+for i in range(1, n-k+1):
+  cur = cur + temp[i+k-1] - temp[i-1]
   if largest<cur:
     largest = cur
 
