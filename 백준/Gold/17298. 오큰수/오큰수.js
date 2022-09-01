@@ -1,7 +1,7 @@
 const fs = require("fs");
 let input = fs.readFileSync("/dev/stdin").toString().trim().split("\n");
 function sol(n, arr) {
-  res = new Array(n).fill(-1);
+  let res = new Array(n).fill(-1);
 
   stack = [];
   for (let i = 0; i < arr.length; i++) {
