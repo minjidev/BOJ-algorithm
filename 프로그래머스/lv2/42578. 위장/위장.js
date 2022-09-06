@@ -8,9 +8,7 @@ function solution(clothes) {
         
     }
 
-    let cnt = 1;
-    for (let key of map.keys()) {
-        cnt *= map.get(key)+1
-    }
+    let cnt = 1;   
+    map.forEach((v, k) => cnt *= (v+1))
     return cnt-1
 }
