@@ -7,7 +7,7 @@ const pairs = arr.map((pair) => pair.split(" ").map(Number));
 
 let graph = Array.from({ length: n + 1 }, () => []);
 let ch = Array.from({ length: n + 1 }, () => 0);
-let family = [];
+let parents = Array.from({ length: n + 1 }, () => 0);
 
 // 인접 리스트
 for (let [s, e] of pairs) {
@@ -20,7 +20,7 @@ function DFS(v) {
     const nv = graph[v][i];
     if (ch[nv] === 0) {
       ch[nv] = 1;
-      family.push([nv, v]); // [자식, 부모]
+      parents[nv] = v; //parents[자식] = 부모
       DFS(nv);
     }
   }
@@ -28,9 +28,4 @@ function DFS(v) {
 
 ch[1] = 1;
 DFS(1);
-
-const answer = family
-  .sort(([a], [b]) => a - b)
-  .map(([child, parent]) => parent);
-
-console.log(answer.join("\n"));
+console.log(parents.slice(2).join("\n"));
