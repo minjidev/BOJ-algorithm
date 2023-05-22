@@ -1,10 +1,3 @@
-const fs = require("fs");
-const filePath = process.platform === "linux" ? "/dev/stdin" : "./input.txt";
-const [N, ...arr] = fs.readFileSync(filePath).toString().trim().split("\n");
-
-const [n, m] = N.split(" ").map(Number);
-let pairs = arr.map((row) => row.split(" ").map(Number));
-
 class Queue {
   constructor() {
     this.data = [];
@@ -31,22 +24,29 @@ class Queue {
   }
 }
 
+const fs = require("fs");
+const filePath = process.platform === "linux" ? "/dev/stdin" : "./input.txt";
+const [N, ...arr] = fs.readFileSync(filePath).toString().trim().split("\n");
+
+const [n, m] = N.split(" ").map(Number);
+let pairs = arr.map((row) => row.split(" ").map(Number));
+
 let graph = Array.from({ length: n + 1 }, () => []);
-let answer = Array.from({ length: n + 1 }, () => 0);
+let hacked = Array.from({ length: n + 1 }, () => 0);
 
 for (let [s, e] of pairs) {
   graph[e].push(s);
 }
 
+// 각 노드에서 해킹할 수 있는 컴퓨터 수 세기
 for (let i = 1; i <= n; i++) {
-  let ch = Array.from({ length: n + 1 }, () => 0);
-  let q = new Queue();
-  let cnt = 0;
-  let max = 0;
+  const ch = Array.from({ length: n + 1 }, () => 0);
+  const q = new Queue();
+  let cnt = 1;
+  let max = Number.MIN_SAFE_INTEGER;
 
-  q.push(i);
   ch[i] = 1;
-  cnt += 1;
+  q.push(i);
 
   while (!q.isEmpty()) {
     const v = q.front();
@@ -62,12 +62,11 @@ for (let i = 1; i <= n; i++) {
     }
   }
 
-  max = Math.max(max, cnt);
-  if (max === cnt) answer[i] = cnt;
+  hacked[i] = cnt;
 }
 
-const maxVal = Math.max(...answer);
-const bestOptions = answer
+const maxVal = Math.max(...hacked);
+const bestOptions = hacked
   .map((num, idx) => (num === maxVal ? idx : -1))
   .filter((num) => num > 0);
 
