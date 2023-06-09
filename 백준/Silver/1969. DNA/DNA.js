@@ -16,10 +16,11 @@ for (let i = 0; i < M; i++) {
   }
 
   // 가장 많은 알파벳 M번째 위치에 넣기
-  const idx = cntArr.indexOf(Math.max(...cntArr));
+  const maxVal = Math.max(...cntArr);
+  const idx = cntArr.indexOf(maxVal);
   answer += nucle[idx];
   // hamming distance 더하기
-  distance += N - cntArr[idx];
+  distance += N - maxVal;
 }
 
 console.log([answer, distance].join("\n"));
