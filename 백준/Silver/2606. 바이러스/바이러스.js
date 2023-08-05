@@ -1,31 +1,26 @@
 const fs = require("fs");
-const filePath = process.platform === "linux" ? "/dev/stdin" : "./input.txt";
-const [total, pairCount, ...pairs] = require("fs")
-  .readFileSync(filePath)
-  .toString()
-  .trim()
-  .split("\n");
+const filePath = process.platform === "linux" ? "/dev/stdin" : "input.txt";
+let [N, M, ...arr] = fs.readFileSync(filePath).toString().trim().split("\n");
 
-const totalCnt = +total;
-const connectedPairs = pairs.map((pair) => pair.split(" ").map(Number));
-
-let graph = Array.from({ length: totalCnt + 1 }, () => []);
-let ch = Array.from({ length: totalCnt + 1 }, () => 0);
+const [n, m] = [N, M].map(Number);
+const map = arr.map((row) => row.split(" ").map(Number));
+const ch = Array(n + 1).fill(0);
+const nodes = Array.from({ length: n + 1 }, () => []);
 let answer = 0;
 
-for (let [s, e] of connectedPairs) {
-  graph[s].push(e);
-  graph[e].push(s);
+// 인접 리스트
+for (let [from, to] of map) {
+  nodes[from].push(to);
+  nodes[to].push(from);
 }
 
 function DFS(v) {
-  for (let i = 0; i < graph[v].length; i++) {
-    const nv = graph[v][i];
-    if (ch[nv] === 0) {
-      answer++;
-      ch[nv] = 1;
-      DFS(nv);
-    }
+  for (let nv of nodes[v]) {
+    if (ch[nv] === 1) continue;
+
+    ch[nv] = 1;
+    answer += 1;
+    DFS(nv);
   }
 }
 
