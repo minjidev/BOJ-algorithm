@@ -1,63 +1,95 @@
+class Queue {
+  constructor() {
+    this.data = [];
+    this.head = 0;
+    this.tail = 0;
+  }
+  push(item) {
+    this.data[this.tail++] = item;
+  }
+  pop() {
+    this.head++;
+  }
+  front() {
+    return this.data[this.head];
+  }
+  rear() {
+    return this.data[this.tail - 1];
+  }
+  isEmpty() {
+    return this.head === this.tail;
+  }
+  size() {
+    return Math.abs(this.head - this.tail);
+  }
+}
 const fs = require("fs");
-const filePath = process.platform === "linux" ? "/dev/stdin" : "./input.txt";
-let [nums, ...arr] = fs.readFileSync(filePath).toString().trim().split("\n");
+const filePath = process.platform === "linux" ? "/dev/stdin" : "input.txt";
+const [input, ...arr] = fs.readFileSync(filePath).toString().trim().split("\n");
 
-const [n, m, v] = nums.split(" ").map(Number);
-const pairs = arr.map((pair) => pair.split(" ").map(Number));
-let graph = Array.from({ length: n + 1 }, () => []);
-let dfsPath = [];
-let bfsPath = [];
+const [N, M, V] = input.split(" ").map(Number);
+const nodes = arr.map((row) => row.split(" ").map(Number));
 
-// 인접 리스트
-for (let [s, e] of pairs) {
-  graph[s].push(e);
-  graph[e].push(s);
+const graph = Array.from({ length: N + 1 }, () => []);
+
+for (let [from, to] of nodes) {
+  graph[from].push(to);
+  graph[to].push(from);
 }
 
-graph = graph.map((v) => v.sort((a, b) => a - b));
+for (let nodes of graph) {
+  nodes.sort((a, b) => a - b);
+}
 
-function getDFSPath(v) {
-  let ch = Array.from({ length: n + 1 }, () => 0);
-  ch[v] = 1;
-  dfsPath.push(v);
+function getDFS() {
+  const ch = Array(N + 1).fill(0);
+  const path = [];
 
   function DFS(v) {
     for (let i = 0; i < graph[v].length; i++) {
       const nv = graph[v][i];
+
       if (ch[nv] === 0) {
         ch[nv] = 1;
-        dfsPath.push(nv);
+        path.push(nv);
         DFS(nv);
       }
     }
   }
 
-  DFS(v);
+  ch[V] = 1;
+  path.push(V);
+  DFS(V);
+
+  console.log(path.join(" "));
 }
 
-function getBFSPath(v) {
-  let q = [];
-  let ch = Array.from({ length: n + 1 }, () => 0);
+function getBFS() {
+  const ch = Array(N + 1).fill(0);
+  const path = [];
+  const queue = new Queue();
 
-  ch[v] = 1;
-  bfsPath.push(v);
-  q.push(v);
+  ch[V] = 1;
+  path.push(V);
+  queue.push(V);
 
-  while (q.length) {
-    const v = q.shift();
+  while (!queue.isEmpty()) {
+    const v = queue.front();
+    queue.pop();
+
     for (let i = 0; i < graph[v].length; i++) {
       const nv = graph[v][i];
+
       if (ch[nv] === 0) {
         ch[nv] = 1;
-        bfsPath.push(nv);
-        q.push(nv);
+        path.push(nv);
+        queue.push(nv);
       }
     }
   }
+
+  console.log(path.join(" "));
 }
 
-getDFSPath(v);
-getBFSPath(v);
-
-console.log(dfsPath.join(" "));
-console.log(bfsPath.join(" "));
+getDFS();
+getBFS();
