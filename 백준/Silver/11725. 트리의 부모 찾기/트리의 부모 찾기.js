@@ -1,31 +1,61 @@
+class Queue {
+  constructor() {
+    this.data = [];
+    this.head = 0;
+    this.tail = 0;
+  }
+  push(item) {
+    this.data[this.tail++] = item;
+  }
+  pop() {
+    this.head++;
+  }
+  front() {
+    return this.data[this.head];
+  }
+  rear() {
+    return this.data[this.tail - 1];
+  }
+  isEmpty() {
+    return this.head === this.tail;
+  }
+  size() {
+    return Math.abs(this.head - this.tail);
+  }
+}
 const fs = require("fs");
 const filePath = process.platform === "linux" ? "/dev/stdin" : "./input.txt";
-const [N, ...arr] = fs.readFileSync(filePath).toString().trim().split("\n");
+let [n, ...arr] = fs.readFileSync(filePath).toString().trim().split("\n");
 
-const n = +N;
-const pairs = arr.map((pair) => pair.split(" ").map(Number));
+const N = Number(n);
+const nodes = arr.map((row) => row.split(" ").map(Number));
 
-let graph = Array.from({ length: n + 1 }, () => []);
-let ch = Array.from({ length: n + 1 }, () => 0);
-let parents = Array.from({ length: n + 1 }, () => 0);
+const graph = Array.from({ length: N + 1 }, () => []);
+const ch = Array.from({ length: N + 1 }).fill(0);
+const parents = Array.from({ length: N + 1 }).fill(0);
 
-// 인접 리스트
-for (let [s, e] of pairs) {
-  graph[s].push(e);
-  graph[e].push(s);
+for (let [from, to] of nodes) {
+  graph[from].push(to);
+  graph[to].push(from);
 }
 
-function DFS(v) {
+const queue = new Queue();
+queue.push(1);
+ch[1] = 1;
+
+while (!queue.isEmpty()) {
+  const v = queue.front();
+  queue.pop();
+
   for (let i = 0; i < graph[v].length; i++) {
     const nv = graph[v][i];
+
     if (ch[nv] === 0) {
       ch[nv] = 1;
-      parents[nv] = v; //parents[자식] = 부모
-      DFS(nv);
+      parents[nv] = v;
+      queue.push(nv);
     }
   }
 }
 
-ch[1] = 1;
-DFS(1);
 console.log(parents.slice(2).join("\n"));
