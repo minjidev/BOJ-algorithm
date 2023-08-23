@@ -1,26 +1,34 @@
 const fs = require("fs");
 const filePath = process.platform === "linux" ? "/dev/stdin" : "./input.txt";
 let [N, K] = fs.readFileSync(filePath).toString().trim().split(" ").map(Number);
-const MAX = 100001;
-const ch = Array.from({ length: MAX }, () => 0);
 
-// 시간 증가하지 않는 경우(x*2)가 우선순위가 높다 -> q의 앞에 넣기
-function bfs() {
-  const q = [[N, 0]]; // [위치, 시간]
+const MAX = 100000 + 1;
+const ch = Array.from({ length: MAX }).fill(0);
+const dis = Array.from({ length: MAX }).fill(0);
+function BFS() {
+  const queue = [];
+  queue.push(N);
   ch[N] = 1;
 
   while (true) {
-    const [cur, time] = q.shift();
-    if (cur === K) return time;
+    const x = queue.shift();
+    if (x === K) return dis[x];
 
-    for (let nx of [cur - 1, cur + 1, cur * 2]) {
-      if (ch[nx] === 1 || nx < 0 || nx >= MAX) continue;
+    for (let nx of [x - 1, x + 1, x * 2]) {
+      if (nx < 0 || nx >= MAX || ch[nx] === 1) continue;
 
-      if (nx === cur * 2) q.unshift([nx, time]); // x*2로 이동 시에 시간 증가 X
-      else q.push([nx, time + 1]); // x-1, x+1로 이동 시 시간 증가 O
+      if (nx === x * 2) {
+        if (nx === K) return dis[x];
+        dis[nx] = dis[x];
+        queue.unshift(nx);
+      } else {
+        if (nx === K) return dis[x] + 1;
+        dis[nx] = dis[x] + 1;
+        queue.push(nx);
+      }
       ch[nx] = 1;
     }
   }
 }
 
-console.log(bfs());
+console.log(BFS());
