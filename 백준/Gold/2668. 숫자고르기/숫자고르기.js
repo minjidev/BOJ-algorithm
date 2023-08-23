@@ -1,32 +1,24 @@
 const fs = require("fs");
 const filePath = process.platform === "linux" ? "/dev/stdin" : "./input.txt";
-let [N, ...nums] = fs
-  .readFileSync(filePath)
-  .toString()
-  .trim()
-  .split("\n")
-  .map(Number);
-
+let [n, ...input] = fs.readFileSync(filePath).toString().trim().split("\n");
+const N = +n;
+const nums = [0, ...input.map(Number)];
 const answer = [];
-let ch = [];
+let ch;
 
-function DFS(target, cur) {
-  if (ch[cur] === 0) {
-    ch[cur] = 1;
-
-    return DFS(target, nums[cur - 1]);
+function DFS(start, next) {
+  // 시작 숫자로 돌아오면 true, 아니면 false
+  if (ch[next] === 0) {
+    ch[next] = 1;
+    return DFS(start, nums[next]);
   } else {
-    // 자신의 번호(시작 번호)로 돌아오는 사이클인 경우
-    if (cur === target) return true;
-
-    // 아닌 경우
+    if (start === next) return true;
     return false;
   }
 }
 
 for (let i = 1; i <= N; i++) {
   ch = Array(N + 1).fill(0);
-
   if (DFS(i, i)) answer.push(i);
 }
 
