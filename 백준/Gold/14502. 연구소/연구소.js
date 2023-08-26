@@ -76,7 +76,6 @@ for (let i = 0; i < len; i++) {
 
 function BFS() {
   let count = 0;
-  const ch = Array.from({ length: N }, () => Array(M).fill(0));
   const queue = new Queue();
   let mapCopy = Array.from({ length: N }, () => Array(M).fill(0));
 
@@ -89,7 +88,6 @@ function BFS() {
 
   while (!queue.isEmpty()) {
     const [x, y] = queue.front();
-    ch[x][y] = 1;
     queue.pop();
 
     for (let k = 0; k < 4; k++) {
@@ -97,8 +95,7 @@ function BFS() {
       const ny = y + dir[k][1];
 
       if (nx < 0 || ny < 0 || nx >= N || ny >= M) continue;
-      if (ch[nx][ny] === 0 && map[nx][ny] === 0) {
-        ch[nx][ny] = 1;
+      if (mapCopy[nx][ny] === 0) {
         mapCopy[nx][ny] = 2;
         queue.push([nx, ny]);
       }
