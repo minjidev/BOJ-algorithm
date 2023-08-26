@@ -3,18 +3,16 @@ function getRank(win) {
 }
 
 function solution(lottos, win_nums) {
-    let count = 0
-    for (let num of lottos) {
-        if (win_nums.includes(num)) count += 1
+    const rank = [6, 6, 5, 4, 3, 2, 1]
+    let worst = 0
+    let zeroCount = 0
+    
+    for (let i=0;i<6;i++) {
+        if (win_nums.includes(lottos[i])) worst   += 1
+        if (lottos[i] === 0) zeroCount += 1
     }
     
-    if (lottos.includes(0)) {
-        const best = count + lottos.filter(el => el === 0).length
-        const worst = count || 1
-        return [getRank(best), getRank(worst)]
-        
-    } else {
-        const rank =  getRank(count || 1)
-        return [rank, rank]
-    }
+    return [rank[worst + zeroCount], rank[worst]]
+    
+   
 }
