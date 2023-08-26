@@ -57,14 +57,19 @@ let maxSize = Number.MIN_SAFE_INTEGER;
 for (let i = 0; i < len; i++) {
   for (let j = i + 1; j < len; j++) {
     for (let k = j + 1; k < len; k++) {
-      map[zeroNodes[i][0]][zeroNodes[i][1]] = 1;
-      map[zeroNodes[j][0]][zeroNodes[j][1]] = 1;
-      map[zeroNodes[k][0]][zeroNodes[k][1]] = 1;
-      const count = BFS();
-      maxSize = Math.max(maxSize, count);
-      map[zeroNodes[i][0]][zeroNodes[i][1]] = 0;
-      map[zeroNodes[j][0]][zeroNodes[j][1]] = 0;
-      map[zeroNodes[k][0]][zeroNodes[k][1]] = 0;
+      const [[ix, iy], [jx, jy], [kx, ky]] = [
+        zeroNodes[i],
+        zeroNodes[j],
+        zeroNodes[k],
+      ];
+
+      map[ix][iy] = 1;
+      map[jx][jy] = 1;
+      map[kx][ky] = 1;
+      BFS();
+      map[ix][iy] = 0;
+      map[jx][jy] = 0;
+      map[kx][ky] = 0;
     }
   }
 }
@@ -77,13 +82,8 @@ function BFS() {
 
   for (let i = 0; i < N; i++) {
     for (let j = 0; j < M; j++) {
-      if (map[i][j] === 2) queue.push([i, j]);
-    }
-  }
-
-  for (let i = 0; i < N; i++) {
-    for (let j = 0; j < M; j++) {
       mapCopy[i][j] = map[i][j];
+      if (map[i][j] === 2) queue.push([i, j]);
     }
   }
 
@@ -111,7 +111,7 @@ function BFS() {
     }
   }
 
-  return count;
+  maxSize = Math.max(maxSize, count);
 }
 
 console.log(maxSize);
