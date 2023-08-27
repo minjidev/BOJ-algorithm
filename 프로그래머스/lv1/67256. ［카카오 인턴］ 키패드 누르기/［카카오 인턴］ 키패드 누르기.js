@@ -7,7 +7,7 @@ function solution(numbers, hand) {
                    8: [1, 3, 2, 3, 2, 1, 2, 1, 0, 1],
                    0: [0, 4, 3, 4, 3, 2, 3, 2, 1, 2]}
     
-    const isRightHanded = hand === 'right'
+    const key = hand === 'right' ? 'R' : 'L'
     
     for (let num of numbers) {
         // 양쪽 
@@ -28,16 +28,8 @@ function solution(numbers, hand) {
                 curPos['L'] = num
                 result += 'L'
             } else {
-                // 오른손잡이면
-                if (isRightHanded) {
-                    curPos['R'] = num
-                    result += 'R'
-                }
-                // 왼손잡이면
-                else {
-                    curPos['L'] = num
-                    result += 'L'
-                }
+                curPos[key] = num
+                result += key
             }
         }
     }
