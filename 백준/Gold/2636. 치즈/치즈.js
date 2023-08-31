@@ -38,7 +38,7 @@ const dir = [
 ];
 
 let hour = 0;
-let count = 0;
+let prevCount = 0;
 
 /**
  *  - [0, 0]에서 시작해 bfs
@@ -50,7 +50,7 @@ let count = 0;
 function BFS() {
   const queue = new Queue();
   const ch = Array.from({ length: H }, () => Array(W).fill(0));
-  const cheese = [];
+  let count = 0;
   queue.push([0, 0]);
 
   while (!queue.isEmpty()) {
@@ -69,20 +69,17 @@ function BFS() {
         queue.push([nx, ny]);
       } else {
         // 1인 경우 치즈로 인식
-        cheese.push([nx, ny]);
+        map[nx][ny] = 0;
+        count += 1;
       }
 
       ch[nx][ny] = 1;
     }
   }
 
-  if (!cheese.length) return true;
-  count = cheese.length;
-
-  // 치즈 녹이기
-  for (let [x, y] of cheese) {
-    map[x][y] = 0;
-  }
+  // 치즈가 없다면
+  if (count === 0) return true;
+  prevCount = count;
 
   return false;
 }
@@ -93,4 +90,4 @@ while (true) {
   hour += 1;
 }
 
-console.log(hour + "\n" + count);
+console.log(hour + "\n" + prevCount);
