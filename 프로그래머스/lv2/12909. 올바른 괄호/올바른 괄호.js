@@ -5,6 +5,6 @@ function solution(s){
         sum += ch === '(' ? 1 : -1
         if (sum < 0) return false
     }
-    if (sum === 0) return true
-    return false
+    
+    return sum === 0
 }
