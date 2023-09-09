@@ -1,20 +1,20 @@
 function solution(progresses, speeds) {
-    let left_days = progresses.map((it, idx) => Math.ceil((100-it)/speeds[idx]))
-    let cur = left_days[0],
-        cnt = 1,
-        res = []
-
-    for (let i=1;i<progresses.length;i++) {
-        // 만약 뒷 날짜가 현재보다 작거나 같다면 같이 배포
-        if (cur >= left_days[i]) {
-            cnt++;
-        } else { // 아니라면 현재까지 작업 모두 배포하고 다음부터 체크 
-            res.push(cnt)
-            cur = left_days[i]
+    // 각각 걸리는 시간을 저장하고, queue에 저장.
+    // queue에서 뒤의 날짜가 걸리는 시간이 작거나 같으면 같이 배포, 아니면 따로 배포 시작
+    const queue = progresses.map((prog, i) => Math.ceil((100 - progresses[i]) / speeds[i]))
+    let maxVal = queue[0]
+    let cnt = 1
+    const answer = []
+    
+    for (let i=1;i<queue.length;i++) {
+        if (queue[i] <= maxVal) {
+            cnt += 1
+        } else {
+            answer.push(cnt)
+            maxVal = queue[i]
             cnt = 1
         }
-        
     }
-    res.push(cnt)
-    return res
+    answer.push(cnt)
+    return answer
 }
