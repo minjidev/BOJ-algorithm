@@ -1,31 +1,28 @@
 function solution(genres, plays) {
-  let plays_obj = {}, result = [];
-  // {장르 : 플레이 수}
-  let count = genres.reduce((obj, cur, idx) => {
-    if (!obj[cur]) {
-      obj[cur] = [];
+    /** 
+    * 장르별 합 : { 장르 : 플레이 횟수 }를 구해서 많이 재생된 장르 순으로 sort
+    * 장르별 재생된 곡 : { 장르: [[idx, 횟수]] }
+    * 재생된 장르를 배열로 만들어서 for문 돌면서 곡 배열을 횟수 순으로 정렬. 
+    * 한 번 더 돌면서 해당 장르의 곡 순서를 answer에 push 
+    */
+    const sum = {}
+    const songs = {}
+    for (let i=0;i<genres.length;i++) {
+        const gen = genres[i]
+        const play = plays[i]
+        sum[gen] = (sum[gen] || 0) + play
+        songs[gen] = (songs[gen] || [])
+        songs[gen].push([i, play])
     }
-    obj[cur].push(plays[idx]);
-    return obj;
-  }, {});
-    
-  const sum_plays = (arr) => arr.reduce((acc, cur) => acc + cur, 0); // 배열 합 
+    const sortedTypes = Object.keys(sum).sort((key1, key2) => sum[key2] - sum[key1]) 
+    const sortedSongs = sortedTypes.reduce((acc, type) => {
+        acc.push(...songs[type].sort(([i1, play1], [i2, play2]) => {
+            return play1 < play2 ? 1 : play1 > play2 ? -1 : (i1 < i2 ? -1 : 1)
+        }).slice(0, 2))
+        return acc
+    }, [])
 
-  const sortable = Object.entries(count);
-  sortable.forEach((v) => v[1].sort((a, b) => b - a)); // 재생횟수 정렬
-  let g_sorted = sortable.sort((a, b) => sum_plays(b[1]) - sum_plays(a[1])); // 장르 정렬
-  g_sorted = g_sorted.map((x) => x[1]);
-
-    
-  for (let i = 0; i < g_sorted.length; i++) {
-    const first = g_sorted[i][0], second = g_sorted[i][1];
-      
-    result.push(plays.indexOf(first)); // 첫 번째는 무조건 push
-    if (g_sorted[i].length > 1) {
-      if (first === second) result.push(plays.indexOf(second, result.at(-1) + 1)); // 첫 번째, 두 번째가 같은 경우
-      else result.push(plays.indexOf(second));
-    }
-  }
-  return result;
+    return sortedSongs.map(([idx, _]) => idx)
+  
 }
 
