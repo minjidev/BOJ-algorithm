@@ -1,15 +1,9 @@
 function solution(phone_book) {
-    const obj = {}
-    for (let p of phone_book) {
-        obj[p] = 1
-    }
+    phone_book.sort()
     
-    for (let p of phone_book) { 
-        for (let i=0;i<p.length;i++) {
-            const num = p.substring(0, i)
-            if (obj[num] && num !== p) return false
-        }
-       
+    for (let i=1;i<phone_book.length;i++) { 
+        // 현재 값이 다음 값의 접두어인지 확인
+        if (phone_book[i].indexOf(phone_book[i-1]) === 0) return false
     }
-    return true // 다 돌고 나오면 true 
+    return true 
 }
