@@ -1,21 +1,18 @@
 function solution(participant, completion) {
-    const part_dict = participant.reduce((obj, cur) => {
-        if (!obj[cur]) {
-            obj[cur]=0
-        }
-        obj[cur]+=1
-        return obj
-    }, {})
-    const comp_dict = completion.reduce((obj, cur) => {
-        if (!obj[cur]) {
-            obj[cur]=0
-        }
-        obj[cur]+=1
-        return obj
-    }, {})
-    for (let key in part_dict) {
-        if (part_dict[key]!=comp_dict[key]) {
-            return key
+    // participant 돌면서 개수 저장하고, completion 돌면서 1씩 빼고, 0이 아니면 key를 return 
+    const obj = {}
+    for (let i=0;i<participant.length;i++) {
+        const p = participant[i]
+        obj[p] = (obj[p] || 0) + 1
+        
+        if (i<=completion.length-1) {
+            const c = completion[i]
+            obj[c] = (obj[c] || 0) - 1   
         }
     }
-}
+    
+    return Object.keys(obj).filter(key => obj[key] !== 0).join('')
+    
+    
+
+}   
