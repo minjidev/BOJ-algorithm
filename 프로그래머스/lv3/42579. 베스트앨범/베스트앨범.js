@@ -14,11 +14,11 @@ function solution(genres, plays) {
         songs[gen] = (songs[gen] || [])
         songs[gen].push([i, play])
     }
+    
     const sortedTypes = Object.keys(sum).sort((key1, key2) => sum[key2] - sum[key1]) 
     const sortedSongs = sortedTypes.reduce((acc, type) => {
-        acc.push(...songs[type].sort(([i1, play1], [i2, play2]) => {
-            return play1 < play2 ? 1 : play1 > play2 ? -1 : (i1 < i2 ? -1 : 1)
-        }).slice(0, 2))
+        acc.push(...songs[type].sort(([i1], [i2]) => i1 - i2)
+                 .sort(([i1, p1], [i2, p2]) => p2 - p1).slice(0, 2))
         return acc
     }, [])
 
