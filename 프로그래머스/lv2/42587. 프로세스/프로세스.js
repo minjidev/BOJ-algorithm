@@ -1,18 +1,15 @@
 function solution(priorities, location) {
-    let maxVal = Math.max(...priorities)
-    const tasks = Array.from({length: priorities.length}, (val, idx) => [idx, priorities[idx]])
-    let order = 0
-    
-    while (tasks.length > 0) {
-        const [idx, val] = tasks.shift()
-        // 가장 우선순위가 높다면 
-        if (maxVal <= val) {
-            order += 1
-            if (idx === location) return order
-            maxVal = Math.max(...tasks.map(([_, val]) => val))
-        } else {
-            tasks.push([idx, val])
-        }
-    }
-
+  const arr = priorities.map((p, idx) => [idx, p])
+  let cnt = 0
+  
+  while (true) {
+      const max = Math.max(...arr.map(([idx, p]) => p))
+      const [idx, p] = arr.shift()
+      
+      if (p < max) arr.push([idx, p]) 
+      else {
+        cnt += 1
+        if (location === idx) return cnt
+      }
+  }
 }
