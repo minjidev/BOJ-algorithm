@@ -6,6 +6,5 @@ function solution(s){
         if (sum < 0) return false
     }
     
-    if (sum === 0 && s[0] === '(') return true
-    return false
+    return sum === 0? true : false
 }
