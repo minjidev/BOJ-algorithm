@@ -1,9 +1,13 @@
 function solution(sizes) {
-    let wMax = 0, hMax = 0;
-    sizes.forEach(x => x.sort((a,b) => b-a));
-    for (let i=0;i<sizes.length;i++) {
-        wMax = Math.max(wMax, sizes[i][0]);
-        hMax = Math.max(hMax, sizes[i][1]);
+    // 가로, 세로 중 작은 값(세로)/큰 값(가로) 구분해서 각각의 최댓값을 곱한 값 
+    sizes.map(size => size.sort((a, b) => a - b))
+    let maxH = 0
+    let maxW = 0
+    
+    for (let [h, w] of sizes) {
+        maxH = Math.max(maxH, h)
+        maxW = Math.max(maxW, w)
     }
-    return wMax*hMax
+
+    return maxH * maxW
 }
