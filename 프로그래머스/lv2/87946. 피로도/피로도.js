@@ -1,33 +1,38 @@
-// 가능한 탐험 순서(순열) 구하기
-const getDungeons = function (arr, selectNum) {
-        const result = []
-        if (selectNum===1) return arr.map((x) => [x]) 
-        
-        arr.forEach((fixed, idx, origin) => {
-            const rest = [...origin.slice(0, idx), ...origin.slice(idx+1)]
-            const permutations = getDungeons(rest, selectNum-1)
-            const attached = permutations.map((x) => [fixed, ...x])
-            result.push(...attached)
-        })
-        return result 
+function getOrder(length) {
+    const arr = Array.from({ length }, (_, idx) => idx)
+    const ch = Array(length).fill(0)
+    const answer = []
+    function DFS(L, order) {
+        if (L === length) answer.push(order)
+        for (let i=0;i<length;i++) {
+            if (ch[i] === 1) continue
+            ch[i] = 1
+            DFS(L + 1, [...order, arr[i]])
+            ch[i] = 0
+        }
     }
-// 각 경우에 유저가 탐험할 수 있는 최대 던전 수 세기 
-const count = function (dungeons, k) {
-    let curK = k, cnt = 0
-    
-    for (let i=0;i<dungeons.length;i++) {
-        if (curK >= dungeons[i][0]) {
-            curK -= dungeons[i][1]
-            cnt += 1
-        } else break
-    }
-    return cnt
-} 
+    DFS(0, [])
+    return answer
+}
+
 
 function solution(k, dungeons) {
-    const cntArr = []
-    const possibleWays = getDungeons(dungeons, dungeons.length)
-    possibleWays.forEach(d => {
-        cntArr.push(count(d, k)) })
-    return Math.max(...cntArr)
+    // 방문할 순서를 순열로 정하기(L===n일때)
+    // 그 순서대로 각 던전에서 if (k>=d[0]) -> k-d[1]하면서 cnt 증가
+    const orders = getOrder(dungeons.length)
+    let maxVal = Number.MIN_SAFE_INTEGER
+    
+    for (let order of orders) {
+        let cnt = 0
+        let hp = k
+        for (let o of order) {
+            const [min, damage] = dungeons[o]
+            if (hp < min) break
+            hp -= damage
+            cnt += 1
+        }
+        
+        if (maxVal < cnt) maxVal = cnt
+    }
+    return maxVal
 }
