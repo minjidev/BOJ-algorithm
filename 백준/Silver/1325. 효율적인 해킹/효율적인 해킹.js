@@ -26,48 +26,51 @@ class Queue {
 
 const fs = require("fs");
 const filePath = process.platform === "linux" ? "/dev/stdin" : "./input.txt";
-const [N, ...arr] = fs.readFileSync(filePath).toString().trim().split("\n");
+let [nums, ...arr] = fs.readFileSync(filePath).toString().trim().split("\n");
 
-const [n, m] = N.split(" ").map(Number);
-let pairs = arr.map((row) => row.split(" ").map(Number));
-
-let graph = Array.from({ length: n + 1 }, () => []);
-let hacked = Array.from({ length: n + 1 }, () => 0);
+const [N, M] = nums.split(" ").map(Number);
+const pairs = arr.map((row) => row.split(" ").map(Number));
+const graph = Array.from({ length: N + 1 }, () => []);
+const hackedComputers = Array(N + 1).fill(0);
 
 for (let [s, e] of pairs) {
   graph[e].push(s);
 }
 
-// 각 노드에서 해킹할 수 있는 컴퓨터 수 세기
-for (let i = 1; i <= n; i++) {
-  const ch = Array.from({ length: n + 1 }, () => 0);
-  const q = new Queue();
-  let cnt = 1;
-  let max = Number.MIN_SAFE_INTEGER;
+function hack(v) {
+  const ch = Array(N + 1).fill(0);
+  const queue = new Queue();
+  let hacked = 0;
 
-  ch[i] = 1;
-  q.push(i);
+  ch[v] = 1;
+  queue.push(v);
 
-  while (!q.isEmpty()) {
-    const v = q.front();
-    q.pop();
+  while (!queue.isEmpty()) {
+    const x = queue.front();
+    queue.pop();
 
-    for (let i = 0; i < graph[v].length; i++) {
-      const nv = graph[v][i];
-      if (ch[nv] === 0) {
-        ch[nv] = 1;
-        cnt += 1;
-        q.push(nv);
-      }
+    for (let i = 0; i < graph[x].length; i++) {
+      const nx = graph[x][i];
+
+      if (ch[nx]) continue;
+
+      ch[nx] = 1;
+      hacked += 1;
+      queue.push(nx);
     }
   }
 
-  hacked[i] = cnt;
+  hackedComputers[v] = hacked;
 }
 
-const maxVal = Math.max(...hacked);
-const bestOptions = hacked
-  .map((num, idx) => (num === maxVal ? idx : -1))
-  .filter((num) => num > 0);
+for (let i = 1; i < N + 1; i++) {
+  hack(i);
+}
 
-console.log(bestOptions.join(" "));
+const max = Math.max(...hackedComputers);
+console.log(
+  hackedComputers
+    .map((cnt, idx) => (cnt === max ? idx : -1))
+    .filter((cnt) => cnt > 0)
+    .join(" ")
+);
