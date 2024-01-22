@@ -1,23 +1,20 @@
 const fs = require("fs");
 const filePath = process.platform === "linux" ? "/dev/stdin" : "./input.txt";
-let [n, arr] = fs.readFileSync(filePath).toString().trim().split("\n");
+let [nums, arr] = fs.readFileSync(filePath).toString().trim().split("\n");
 
-const [N, K] = n.split(" ").map(Number);
-const nums = arr.split(" ").map(Number);
-nums.sort((a, b) => a - b);
-let answer = 0;
+const N = Number(nums.split(" ")[0]);
+const set = arr.split(" ").map(Number);
+set.sort((a, b) => a - b);
+let max = 0;
 
-// 재귀 근데 몇 번 내려가야할지 안 정해져있음
-function DFS(L, num) {
-  // 숫자가 완성되면
-  if (num > N) return;
-  else {
-    for (let i = 0; i < K; i++) {
-      answer = Math.max(num, answer);
-      DFS(L + 1, 10 * num + nums[i]);
-    }
+function DFS(sum) {
+  if (sum > N) return;
+
+  for (let num of set) {
+    if (max < sum) max = sum;
+    DFS(10 * sum + num);
   }
 }
 
-DFS(0, 0);
-console.log(answer);
+DFS(0);
+console.log(max);
