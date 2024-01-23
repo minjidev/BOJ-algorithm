@@ -1,26 +1,21 @@
 const fs = require("fs");
 const filePath = process.platform === "linux" ? "/dev/stdin" : "./input.txt";
-let [n, ...arr] = fs.readFileSync(filePath).toString().trim().split("\n");
-const [N, M] = n.split(" ").map(Number);
+let [nums, ...arr] = fs.readFileSync(filePath).toString().trim().split("\n");
+const [N, M] = nums.split(" ").map(Number);
 const DNAs = arr.map((row) => row.split(""));
-
-const nucle = ["A", "C", "G", "T"]; // 사전 순
+const nucleotide = ["A", "C", "G", "T"];
 let answer = "";
-let distance = 0;
+let hammingDistance = 0;
 
-// M번째 위치에서 가장 많이 사용된 알파벳을 M번째 위치에 넣기
 for (let i = 0; i < M; i++) {
-  const cntArr = Array.from({ length: 4 }).fill(0);
+  const count = Array(4).fill(0); // [A, C, G, T]
   for (let j = 0; j < N; j++) {
-    cntArr[nucle.indexOf(DNAs[j][i])] += 1;
+    count[nucleotide.indexOf(DNAs[j][i])] += 1;
   }
-
-  // 가장 많은 알파벳 M번째 위치에 넣기
-  const maxVal = Math.max(...cntArr);
-  const idx = cntArr.indexOf(maxVal);
-  answer += nucle[idx];
-  // hamming distance 더하기
-  distance += N - maxVal;
+    
+  const max = Math.max(...count);
+  answer += nucleotide[count.indexOf(max)];
+  hammingDistance += N - max;
 }
 
-console.log([answer, distance].join("\n"));
+console.log([answer, hammingDistance].join("\n"));
