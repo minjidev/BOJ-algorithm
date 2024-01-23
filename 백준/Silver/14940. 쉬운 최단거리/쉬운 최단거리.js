@@ -25,25 +25,18 @@ class Queue {
 }
 const fs = require("fs");
 const filePath = process.platform === "linux" ? "/dev/stdin" : "./input.txt";
-let [input, ...arr] = fs.readFileSync(filePath).toString().trim().split("\n");
-
-const [N, M] = input.split(" ").map(Number);
+let [nums, ...arr] = fs.readFileSync(filePath).toString().trim().split("\n");
+const [N, M] = nums.split(" ").map(Number);
 const board = arr.map((row) => row.split(" ").map(Number));
 const dis = Array.from({ length: N }, () => Array(M).fill(0));
 const dir = [
   [-1, 0],
-  [0, 1],
   [1, 0],
   [0, -1],
+  [0, 1],
 ];
 
-for (let i = 0; i < N; i++) {
-  for (let j = 0; j < M; j++) {
-    if (board[i][j] === 2) BFS(i, j);
-  }
-}
-
-function BFS(i, j) {
+function getDistance(i, j) {
   const queue = new Queue();
   board[i][j] = 0;
   queue.push([i, j]);
@@ -64,12 +57,20 @@ function BFS(i, j) {
       queue.push([nx, ny]);
     }
   }
+}
 
-  for (let i = 0; i < N; i++) {
-    for (let j = 0; j < M; j++) {
-      if (board[i][j] === 1) {
-        dis[i][j] = -1;
-      }
+for (let i = 0; i < N; i++) {
+  for (let j = 0; j < M; j++) {
+    if (board[i][j] === 2) {
+      getDistance(i, j);
+    }
+  }
+}
+
+for (let i = 0; i < N; i++) {
+  for (let j = 0; j < M; j++) {
+    if (board[i][j] === 1) {
+      dis[i][j] = -1;
     }
   }
 }
