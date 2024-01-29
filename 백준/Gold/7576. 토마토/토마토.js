@@ -25,35 +25,32 @@ class Queue {
 }
 const fs = require("fs");
 const filePath = process.platform === "linux" ? "/dev/stdin" : "./input.txt";
-let [input, ...arr] = fs.readFileSync(filePath).toString().trim().split("\n");
-
-const [M, N] = input.split(" ").map(Number);
-const board = arr.map((row) => row.split(" ").map(Number));
-
+let [nums, ...arr] = fs.readFileSync(filePath).toString().trim().split("\n");
+const [M, N] = nums.split(" ").map(Number);
+const tomatoes = arr.map((row) => row.split(" ").map(Number));
 const dir = [
   [-1, 0],
-  [0, 1],
   [1, 0],
   [0, -1],
+  [0, 1],
 ];
 
-// 이미 모든 토마토가 익어있는 상태
-let zeroCount = 0;
+// 모두 익어있으면 0 출력
+let sum = 0;
 for (let i = 0; i < N; i++) {
   for (let j = 0; j < M; j++) {
-    if (board[i][j] === 0) zeroCount += 1;
+    if (tomatoes[i][j] === 1) sum += 1;
   }
 }
 
-if (zeroCount === 0) {
+if (sum === N * M) {
   console.log(0);
   return;
 }
 
-function BFS(i, j) {
+function BFS() {
   while (!queue.isEmpty()) {
     const [x, y] = queue.front();
-
     queue.pop();
 
     for (let k = 0; k < 4; k++) {
@@ -62,21 +59,19 @@ function BFS(i, j) {
 
       if (nx < 0 || ny < 0 || nx >= N || ny >= M) continue;
 
-      if (board[nx][ny] === 0) {
-        board[nx][ny] = board[x][y] + 1;
-
+      if (tomatoes[nx][ny] === 0) {
+        tomatoes[nx][ny] = tomatoes[x][y] + 1;
         queue.push([nx, ny]);
       }
     }
   }
 }
 
-// 아닌 경우
+// 토마토 익히기
 const queue = new Queue();
-
 for (let i = 0; i < N; i++) {
   for (let j = 0; j < M; j++) {
-    if (board[i][j] === 1) {
+    if (tomatoes[i][j] === 1) {
       queue.push([i, j]);
     }
   }
@@ -84,17 +79,17 @@ for (let i = 0; i < N; i++) {
 
 BFS();
 
-let max = Number.MIN_SAFE_INTEGER;
-// 확인
+// 모두 익었는지 확인
+let maxDays = 0;
 for (let i = 0; i < N; i++) {
   for (let j = 0; j < M; j++) {
-    if (board[i][j] === 0) {
+    if (tomatoes[i][j] === 0) {
       console.log(-1);
       return;
     } else {
-      max = Math.max(max, board[i][j]);
+      maxDays = Math.max(maxDays, tomatoes[i][j]);
     }
   }
 }
 
-console.log(max - 1);
+console.log(maxDays - 1);
