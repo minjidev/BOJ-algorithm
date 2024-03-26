@@ -11,17 +11,11 @@ const dir = [
   [1, 0],
   [0, -1],
 ]; // 북, 동, 남, 서
-let cleanCount = 0;
+let cleanCount = 1;
+let isCleaned = false;
+board[r][c] = 2; // 시작 위치 청소
 
-while (true) {
-  // 현재 칸이 청소되어 있지 않은 경우 현재 칸 청소
-  if (board[r][c] === 0) {
-    board[r][c] = 2;
-    cleanCount += 1;
-  }
-
-  let isCleaned = false;
-
+function clean() {
   // 바라보고 있는 방향에서 반시계 방향으로 4방향 확인
   for (let i = 1; i <= 4; i++) {
     const nextDir = (d - i + 4) % 4;
@@ -39,18 +33,24 @@ while (true) {
       break;
     }
   }
+}
 
-  if (isCleaned) continue;
+while (true) {
+  isCleaned = false;
 
-  // 주변 4칸이 모두 이동할 수 없는 경우 현재 방향에서 뒤로 한 칸
-  const nx = r + dir[d][0] * -1;
-  const ny = c + dir[d][1] * -1;
+  clean();
 
-  // 갈 수 없으면 중단
-  if (board[nx][ny] === 1) break;
+  // 청소 안 했을 때(주변 4칸이 모두 이동할 수 없는 경우) 현재 방향에서 뒤로 한 칸
+  if (!isCleaned) {
+    const nx = r + dir[d][0] * -1;
+    const ny = c + dir[d][1] * -1;
 
-  r = nx;
-  c = ny;
+    // 갈 수 없으면 중단
+    if (board[nx][ny] === 1) break;
+
+    r = nx;
+    c = ny;
+  }
 }
 
 console.log(cleanCount);
