@@ -1,29 +1,3 @@
-class Queue {
-  constructor() {
-    this.data = [];
-    this.head = 0;
-    this.tail = 0;
-  }
-  push(item) {
-    this.data[this.tail++] = item;
-  }
-  pop() {
-    this.head++;
-  }
-  front() {
-    return this.data[this.head];
-  }
-  rear() {
-    return this.data[this.tail - 1];
-  }
-  isEmpty() {
-    return this.head === this.tail;
-  }
-  size() {
-    return Math.abs(this.head - this.tail);
-  }
-}
-
 const fs = require("fs");
 const filePath = process.platform === "linux" ? "/dev/stdin" : "./input.txt";
 const [n, ...arr] = fs.readFileSync(filePath).toString().trim().split("\n");
@@ -62,9 +36,7 @@ while (true) {
     break;
   }
 
-  const [fx, fy, minDis] = result;
-  curX = fx;
-  curY = fy;
+  [curX, curY, minDis] = result;
   answer += minDis;
   board[curX][curY] = 0;
   consumed += 1;
@@ -103,6 +75,7 @@ function BFS() {
         dis[nx][ny] = dis[x][y] + 1;
         queue.push([nx, ny]);
 
+        // 먹을 물고기가 있는 경우
         if (0 < board[nx][ny] && board[nx][ny] < sharkSize) {
           fishToEat.push([nx, ny, dis[nx][ny]]);
         }
@@ -113,6 +86,7 @@ function BFS() {
   // 먹을 물고기가 없는 경우
   if (fishToEat.length === 0) return null;
 
+  // 거리순, x좌표, y좌표 순으로 정렬
   fishToEat.sort((a, b) => a[2] - b[2] || a[0] - b[0] || a[1] - b[1]);
   return fishToEat[0];
 }
