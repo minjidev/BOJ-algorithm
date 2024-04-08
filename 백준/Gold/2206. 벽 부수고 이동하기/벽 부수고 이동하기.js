@@ -48,7 +48,6 @@ function BFS() {
   const queue = new Queue();
   queue.push([0, 0, 0, 1]); // x, y, break 횟수, 거리
   ch[0][0][0] = 1;
-  ch[0][0][1] = 1;
 
   while (!queue.isEmpty()) {
     const [x, y, breakCnt, dis] = queue.front();
