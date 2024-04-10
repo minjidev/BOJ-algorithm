@@ -2,21 +2,28 @@ const fs = require("fs");
 const filePath = process.platform === "linux" ? "/dev/stdin" : "./input.txt";
 const N = +fs.readFileSync(filePath).toString().trim();
 const primeNumbers = [];
-
 // N이하 소수 구하기
-function isPrime(num) {
-  for (let i = 2; i <= Math.sqrt(num); i++) {
-    if (num % i === 0) return false;
+function getPrimeNumbers() {
+  const primes = Array(N + 1).fill(true);
+  primes[0] = false;
+  primes[1] = false;
+
+  // 에라토스테네스의 체
+  for (let i = 2; i <= Math.sqrt(N); i++) {
+    if (primes[i]) {
+      // i의 배수 제외
+      for (let j = i * i; j <= N; j += i) {
+        primes[j] = false;
+      }
+    }
   }
 
-  return true;
-}
-
-for (let i = 2; i <= N; i++) {
-  if (isPrime(i)) {
-    primeNumbers.push(i);
+  for (let i = 0; i < primes.length; i++) {
+    if (primes[i]) primeNumbers.push(i);
   }
 }
+
+getPrimeNumbers();
 
 // 투포인터로 연속된 누적합 구하기
 let s = 0;
