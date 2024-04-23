@@ -8,8 +8,8 @@ const top = [];
 const bottom = [];
 
 for (let i = 0; i < N; i++) {
-  if (i % 2 === 0) top.push(arr[i]);
-  else bottom.push(arr[i]);
+  if (i % 2 === 0) bottom.push(arr[i]);
+  else top.push(arr[i]);
 }
 
 top.sort((a, b) => a - b);
