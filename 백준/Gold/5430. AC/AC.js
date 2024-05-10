@@ -1,41 +1,36 @@
+// [5430](https://www.acmicpc.net/problem/5430)
+
 const fs = require("fs");
 const filePath = process.platform === "linux" ? "/dev/stdin" : "./input.txt";
-const [n, ...input] = fs.readFileSync(filePath).toString().trim().split("\n");
+let input = fs.readFileSync(filePath).toString().trim().split("\n");
+const T = input.shift();
+let answer = "";
+let isReversed = false;
+let arr = null;
+let cmds = "";
 
-const N = +n;
-for (let i = 0; i < N; i++) {
-  const [commands, l, arr] = input.slice(i * 3, i * 3 + 3);
-  const p = JSON.parse(arr);
+for (let i = 0; i < T; i++) {
+  cmds = input[i * 3];
+  arr = JSON.parse(input[i * 3 + 2]).map(Number);
+  isReversed = false;
 
-  let isReversed = false;
-  let isError = false;
+  answer += runCommand() + "\n";
+}
 
-  // 함수 수행
-  for (let command of commands) {
-    if (command === "R") {
-      // 뒤집기
-      isReversed = !isReversed;
-      continue;
-    }
-
-    if (command === "D") {
-      if (p.length > 0) {
-        if (isReversed) {
-          p.pop();
-        } else {
-          p.shift();
-        }
+function runCommand() {
+  for (let cmd of cmds) {
+    if (cmd === "R") isReversed = !isReversed;
+    else if (cmd === "D") {
+      if (arr.length > 0) {
+        if (isReversed) arr.pop();
+        else arr.shift();
       } else {
-        // 빈 배열인 경우 에러 발생
-        isError = true;
-        break;
+        return "error";
       }
     }
   }
 
-  if (isError) {
-    console.log("error");
-  } else {
-    console.log(JSON.stringify(isReversed ? p.reverse() : p));
-  }
+  return JSON.stringify(isReversed ? arr.reverse() : arr);
 }
+
+console.log(answer);
