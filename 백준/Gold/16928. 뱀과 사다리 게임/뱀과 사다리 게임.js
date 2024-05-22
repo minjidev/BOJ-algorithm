@@ -1,5 +1,3 @@
-// [16928/뱀과 사다리 게임](https://www.acmicpc.net/problem/16928)
-
 class Queue {
     constructor() {
         this.data = [];
@@ -33,7 +31,6 @@ const [n, ...arr] = input;
 const [N, M] = n.split(" ").map(Number);
 const moves = arr.map((row) => row.split(" ").map(Number));
 const board = Array(101).fill(0);
-let minCount = Number.MAX_SAFE_INTEGER;
 
 // 사다리와 뱀 저장
 for (let [from, to] of moves) {
